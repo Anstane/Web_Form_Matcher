@@ -35,7 +35,7 @@ Python 3.11 | Flask 3.0 | TinyDB 4.8 | pytest 7.4.3
 
 #### POST-запрос получающий в ответ название шаблона
 
-```http
+```
   POST /get_froms
 ```
 
@@ -48,7 +48,7 @@ Python 3.11 | Flask 3.0 | TinyDB 4.8 | pytest 7.4.3
 
 #### POST-запрос возвращающий типы полей
 
-```http
+```
   POST /get_froms
 ```
 
