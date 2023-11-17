@@ -24,9 +24,11 @@ def validate_date(date: str) -> bool:
     date_formats = ['%d.%m.%Y', '%Y-%m-%d']
 
     for date_format in date_formats:
-        try:
+
+        try: # Если будет ValueError - функция не упадёт и в итоге вернёт False.
             datetime.strptime(date, date_format)
             return True
+
         except ValueError:
             pass
 
@@ -38,7 +40,7 @@ def get_template_type(data):
     Общий валидатор принимающий данные и отдающий тип поля.
     """
 
-    types = {}
+    types = {} # Создаём новый словарь с типами данных.
 
     for field_name, value in data.items():
         if validate_email(value):

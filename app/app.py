@@ -1,3 +1,4 @@
+import os
 import logging
 from logging.handlers import RotatingFileHandler
 from flask import Flask, request
@@ -6,8 +7,12 @@ from tinydb import TinyDB
 from .validation import get_template_type
 
 
-app = Flask(__name__)
-db = TinyDB('./templates/templates.json')
+application = Flask(__name__)
+db = TinyDB(
+    os.path.abspath(
+        f"{os.path.dirname(__file__)}/templates/templates.json"
+    )
+)
 
 log_formatter = logging.Formatter('%(asctime)s [%(levelname)s] - %(message)s')
 log_handler = RotatingFileHandler('file_log.log', maxBytes=100000, backupCount=1)
@@ -33,7 +38,7 @@ def find_matching_template(request_data):
     return None
 
 
-@app.route('/get_form', methods=['POST'])
+@application.route('/get_form', methods=['POST'])
 def get_form():
     """Основная логика приложения."""
 
@@ -44,11 +49,11 @@ def get_form():
     try:
         if template_name:
             logger.info(f"Template found: {template_name}")
-            return template_name
+            return template_name, 200
         else:
             logger.info(f"Template not found <(_ _)>. Type of fields: "
                         f"{', '.join(type for type in validated_data.values())}")
-            return validated_data
+            return validated_data, 200
 
     except Exception as error:
         logger.error(f"Error: {error}")
@@ -56,4 +61,4 @@ def get_form():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)
