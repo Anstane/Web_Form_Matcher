@@ -16,12 +16,12 @@ Python 3.11 | Flask 3.0 | TinyDB 4.8 | pytest 7.4.3
 
 #### Колнируем репозиторий
 ```
-  git@github.com:Anstane/test_task_leadhit.git
+  git clome git@github.com:Anstane/Web_Form_Matcher.git
 ```
 
 #### Переходим в папку с приложением
 ```
-  cd test_task_leadhit/
+  cd Web_Form_Matcher/
 ```
 
 #### Запускаем docker compose
