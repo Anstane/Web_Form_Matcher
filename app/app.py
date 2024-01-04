@@ -24,15 +24,15 @@ logger.addHandler(log_handler)
 
 
 def find_matching_template(request_data):
-    """Функция для поиска подходящих шаблонов внутри БД."""
+    """Function for searching suitable templates inside the database."""
 
     templates = db.all()
 
     for template in templates:
-        template_values = set(template.values()) - {template['name']} # Убираем дубликаты и поле name.
-        request_values = set(request_data.values()) # Собираем поля из request в set.
+        template_values = set(template.values()) - {template['name']} # Remove duplicates and the name field.
+        request_values = set(request_data.values()) # We collect fields from request into set.
 
-        if template_values == request_values: # Сравнимаем шаблоны из БД и request.
+        if template_values == request_values: # Compare templates from the database and request.
             return template['name']
     
     return None
@@ -40,7 +40,7 @@ def find_matching_template(request_data):
 
 @application.route('/get_form', methods=['POST'])
 def get_form():
-    """Основная логика приложения."""
+    """Basic application logic."""
 
     data = request.json
     validated_data = get_template_type(data)

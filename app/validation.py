@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 def validate_email(email: str) -> bool:
-    """Простая валидация email с использованием регулярного выражения."""
+    """Simple email validation using regular expression."""
 
     email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
 
@@ -11,7 +11,7 @@ def validate_email(email: str) -> bool:
 
 
 def validate_phone(phone: str) -> bool:
-    """Валидация номера телефона в формате +7XXXXXXXXXX."""
+    """Validation of the phone number in the format +7XXXXXXXXXX."""
 
     phone_regex = r'^\+7\d{10}$'
 
@@ -19,13 +19,13 @@ def validate_phone(phone: str) -> bool:
 
 
 def validate_date(date: str) -> bool:
-    """Валидация даты в форматах DD.MM.YYYY или YYYY-MM-DD."""
+    """Date validation in DD.MM.YYYY or YYYY-MM-DD formats."""
 
     date_formats = ['%d.%m.%Y', '%Y-%m-%d']
 
     for date_format in date_formats:
 
-        try: # Если будет ValueError - функция не упадёт и в итоге вернёт False.
+        try: # If there is a ValueError, the function will not fail and will eventually return False.
             datetime.strptime(date, date_format)
             return True
 
@@ -37,10 +37,10 @@ def validate_date(date: str) -> bool:
 
 def get_template_type(data):
     """
-    Общий валидатор принимающий данные и отдающий тип поля.
+    A general validator that receives data and outputs a field type.
     """
 
-    types = {} # Создаём новый словарь с типами данных.
+    types = {} # Create a new dictionary with data types.
 
     for field_name, value in data.items():
         if validate_email(value):

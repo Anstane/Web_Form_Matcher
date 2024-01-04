@@ -5,7 +5,7 @@ from app.app import application
 
 @pytest.fixture
 def client():
-    """Фикстура с созданием тестового клиента."""
+    """Fixture with the creation of a test client."""
 
     with application.test_client() as client:
         yield client
@@ -15,17 +15,17 @@ class TestApp:
 
 
     def test_endpoint(self, client):
-        """Проверяем эндпоинт '/get_form'."""
+        """Checking the endpoint'/get_form'."""
 
         response = client.post('/get_form', json={})
-        assert response.status_code == 200, f'POST-запрос не обработан. Статус код: {response.status_code}.'
+        assert response.status_code == 200, f'The POST-request was not processed. Status code: {response.status_code}.'
 
         response = client.get('/get_form')
-        assert response.status_code == 405, f'GET-запрос не возвращает код 405. Статус код: {response.status_code}.'
+        assert response.status_code == 405, f'The GET-request does not return code 405. Status code: {response.status_code}.'
 
 
     def test_return_name_of_templates_first(self, client):
-        """Проверяем, что возвращается имя шаблона MyForm."""
+        """We check that the template name MyForm is returned."""
 
         expected_answer = "MyForm"
 
@@ -36,12 +36,12 @@ class TestApp:
 
         response_data = response.get_data(as_text=True)
 
-        assert response.status_code == 200, f"Ответ не был получен. Статус код: {response.status_code}."
-        assert response_data == expected_answer, f"Ожидаемый ответ '{expected_answer}', получен '{response_data}'."
+        assert response.status_code == 200, f"No response was received. Status code: {response.status_code}."
+        assert response_data == expected_answer, f"Expected response {expected_answer}, received {response_data}."
 
 
     def test_return_name_of_templates_second(self, client):
-        """Проверяем, что возвращается имя шаблона Order Form."""
+        """We check that the name of the Order Form template is returned."""
 
         expected_answer = "Order Form"
 
@@ -52,79 +52,79 @@ class TestApp:
 
         response_data = response.get_data(as_text=True)
 
-        assert response.status_code == 200, f"Ответ не был получен. Статус код: {response.status_code}."
-        assert response_data == expected_answer, f"Ожидаемый ответ '{expected_answer}', получен '{response_data}'."
+        assert response.status_code == 200, f"No response was received. Status code: {response.status_code}."
+        assert response_data == expected_answer, f"Expected response {expected_answer}, received {response_data}."
 
 
     def test_correctness_JSON(self, client):
-        """Проверяем, что JSON корректно принимается."""
+        """We check that JSON is received correctly."""
 
         response = client.post('/get_form', json={})
-        assert response.json == {}, f'Возвращаемый JSON некорректен. JSON: {response.json}.'
+        assert response.json == {}, f'The returned JSON is incorrect. JSON: {response.json}.'
 
         response = client.post('/get_form', json={
             "f_name": "random_text"
         })
-        assert response.json == {"f_name": "text"}, f'Возвращаемый JSON некорректен. JSON: {response.json}.'
+        assert response.json == {"f_name": "text"}, f'The returned JSON is incorrect. JSON: {response.json}.'
 
 
     def test_validation_typing_email(self, client):
-        """Проверяем валидацию и типизацию эл.почты."""
+        """We check the email validation and typing."""
 
         response = client.post('/get_form', json={
             "f_name": "test@test.ru"
         })
-        assert response.json == {"f_name": "email"}, f'Ошибка валидации/типизации эл.почты. JSON: {response.json}.'
+        assert response.json == {"f_name": "email"}, f'Email validation/typing error. JSON: {response.json}.'
 
         response = client.post('/get_form', json={
             "f_name": "testtest.ru"
         })
-        assert response.json == {"f_name": "text"}, f'Символ @ отсутствует в эл.почте. JSON: {response.json}.'
+        assert response.json == {"f_name": "text"}, f'The @ symbol is missing in email. JSON: {response.json}.'
 
         response = client.post('/get_form', json={
             "f_name": "test@testru"
         })
-        assert response.json == {"f_name": "text"}, f'Ошибка в домене эл.почты. JSON: {response.json}.'
+        assert response.json == {"f_name": "text"}, f'Error in email domain. JSON: {response.json}.'
 
         response = client.post('/get_form', json={
             "f_name": "@."
         })
-        assert response.json == {"f_name": "text"}, f'Эл.почта записана не полностью. JSON: {response.json}.'
+        assert response.json == {"f_name": "text"}, f'The email was not completely recorded. JSON: {response.json}.'
 
 
     def test_validation_typing_phone(self, client):
-        """Проверяем валидацию и типизацию номера телефона."""
+        """We check the validation and typing of the phone number."""
 
         response = client.post('/get_form', json={
             "f_name": "+79101112233"
         })
-        assert response.json == {"f_name": "phone"}, f'Ошибка валидации/типизации номера телефона. JSON: {response.json}.'
+        assert response.json == {"f_name": "phone"}, f'Phone number validation/typing error. JSON: {response.json}.'
 
         response = client.post('/get_form', json={
             "f_name": "+19101112233"
         })
-        assert response.json == {"f_name": "text"}, f'Номер начинается не на +7. JSON: {response.json}.'
+        assert response.json == {"f_name": "text"}, f'The number does not start at +7. JSON: {response.json}.'
 
         response = client.post('/get_form', json={
             "f_name": "+7"
         })
-        assert response.json == {"f_name": "text"}, f'В номере недостаточно цифр. JSON: {response.json}.'
+        assert response.json == {"f_name": "text"}, f'There are not enough numbers in the number. JSON: {response.json}.'
 
 
     def test_validation_typing_date(self, client):
-        """Проверяем валидацию и типизацию даты."""
+        """We check the date validation and typing."""
     
         response = client.post('/get_form', json={
             "f_name": "17.11.2023"
         })
-        assert response.json == {"f_name": "date"}, f'Ошибка формата даты DD.MM.YYYY. JSON: {response.json}.'
+        assert response.json == {"f_name": "date"}, f'Date format error DD.MM.YYYY. JSON: {response.json}.'
 
         response = client.post('/get_form', json={
             "f_name": "2023-11-17"
         })
-        assert response.json == {"f_name": "date"}, f'Ошибка формата даты YYYY-MM-DD. JSON: {response.json}.'
+        assert response.json == {"f_name": "date"}, f'YYYY-MM-DD date format error. JSON: {response.json}.'
 
         response = client.post('/get_form', json={
             "f_name": "20231117"
         })
-        assert response.json == {"f_name": "text"}, f'Ошибка даты. JSON: {response.json}.'
+        assert response.json == {"f_name": "text"}, f'Date error. JSON: {response.json}.'

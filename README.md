@@ -1,36 +1,36 @@
 
-# Web-приложение для определения заполненных форм
+# Web application for identifying completed forms
 
-#### Принцип работы приложения:
+#### How the application works:
 
-- Приложение получает на вход 4 типа данных;
-- Сопоставляет эти типы данных в валидаторе с названиями + проверяет их корректность;
-- Исходя из названий оно сопоставляется с шаблонами из БД;
-- Если шаблон имеется - возвращаем название шаблона / Если шаблон отсутствует - возвращаем типы полей.
+- The application receives 4 types of data as input;
+- Compares these data types in the validator with names + checks their correctness;
+- Based on the names, it is compared with templates from the database;
+- If there is a template, we return the name of the template / If there is no template, we return the field types.
 
-#### Стек:
+#### Stack:
 
 Python 3.11 | Flask 3.0 | TinyDB 4.8 | pytest 7.4.3
 
-## Установка
+## Installation
 
-#### Колнируем репозиторий
+#### Cloning the repository
 ```
-  git clome git@github.com:Anstane/Web_Form_Matcher.git
-```
-
-#### Переходим в папку с приложением
-```
-  cd Web_Form_Matcher/
+  git clome git@github.com:Anstane/web_form_matcher.git
 ```
 
-#### Запускаем docker compose
+#### Go to the application folder
+```
+  cd web_form_matcher/
+```
+
+#### Launch docker compose
 ```
   docker compose up
 ```
-## Референс запросов
+## Reference requests
 
-#### POST-запрос получающий в ответ название шаблона
+#### POST request receiving the template name in response
 
 ```
   POST /get_form
@@ -43,7 +43,7 @@ Python 3.11 | Flask 3.0 | TinyDB 4.8 | pytest 7.4.3
 }
 ```
 
-#### POST-запрос возвращающий типы полей
+#### POST request returning field types
 
 ```
   POST /get_form
@@ -58,14 +58,14 @@ Python 3.11 | Flask 3.0 | TinyDB 4.8 | pytest 7.4.3
 
 
 
-## Запуск тестов вручную
+## Running tests manually
 
 ```
   docker-compose exec app poetry run pytest -v
 ```
 
 
-## Автор
+## Author
 
-- [Михаил Московкин](https://github.com/Anstane)
+- [Mikhail Moskovkin](https://github.com/Anstane)
 
